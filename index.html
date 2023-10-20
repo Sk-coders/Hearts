@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Heart Shape with Romantic Song</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(45deg, #FF5733, #FF3E33, #FF2255, #FF0099);
+            animation: colorfulBackground 4s infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .heart {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            transform: rotate(-360deg);
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            border-radius: 200px 200px 0 0;
+            width: 200px;
+            height: 320px;
+            background: red;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .heart::before {
+            left: 200px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        
+        .heart img {
+            opacity: 0;
+            z-index: 1;
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 148px;
+            transform: translate(-50%, -50%);
+            transition: opacity 3s ease-in 0s;
+            left: 201px;
+            border-radius: 50%;
+        }
+
+        @keyframes colorfulBackground {
+            0% {
+                background: linear-gradient(45deg, #FF5733, #FF3E33, #FF2255, #FF0099);
+            }
+            20% {
+                background: linear-gradient(45deg, #33FF57, #33FF3E, #55FF22, #99FF00);
+            }
+            40% {
+                background: linear-gradient(45deg, #5733FF, #3E33FF, #2255FF, #0099FF);
+            }
+            60% {
+                background: linear-gradient(45deg, #FF3357, #FF333E, #FF2255, #0099FF);
+            }
+            80% {
+                background: linear-gradient(45deg, #FF5733, #FF3E33, #FF2255, #FF0099);
+            }
+            100% {
+                background: linear-gradient(45deg, #33FF57, #33FF3E, #55FF22, #99FF00);
+            }
+        }
+
+        /* Heartbeat animation */
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            20% {
+                transform: scale(1.1);
+            }
+            40% {
+                transform: scale(1);
+            }
+            60% {
+                transform: scale(1.1);
+            }
+            80% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <div id="nibba" style="width: 501px; height: 300px;" onmouseover="playSound('backgroundAudio')">
+            <div class="heart" id="colorfulHeart">
+                <img src="image.png" alt="Your Photo" id="myPhoto">
+            </div>
+        </div>
+    </div>
+    <div id="message" style="font-size: 36px; text-align: center; position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); cursor: pointer;"></div>
+    <audio id="backgroundAudio">
+        <source src="music.m4a" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>   
+    <script>
+        const heart = document.getElementById("nibba");
+        const message = document.getElementById("message");
+        const messageText = "hello ";
+
+        const myPhoto = document.getElementById("myPhoto");
+
+        let isPhotoVisible = false;
+
+        heart.addEventListener("click", function() {
+            message.innerHTML = "";
+            let messageIndex = 0;
+            const printMessage = () => {
+                if (messageIndex < messageText.length) {
+                    message.innerHTML += messageText[messageIndex];
+                    messageIndex++;
+                    setTimeout(printMessage, 200);
+                }
+            };
+            printMessage();
+
+            if (!isPhotoVisible) {
+                isPhotoVisible = true;
+                myPhoto.style.opacity = 1;
+
+                // Apply heartbeat animation to the heart
+                heart.style.animation = "heartbeat 1s infinite";
+            }
+        });
+
+        var currentAudio = null;
+
+        function playSound(audioId) {
+            if (currentAudio !== null) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            var sound = document.getElementById(audioId);
+            sound.play();
+            currentAudio = sound;
+        }
+    </script>
+</body>
+</html>
